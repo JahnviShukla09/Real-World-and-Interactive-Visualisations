@@ -1,137 +1,205 @@
 
-# 📊 STUDY OF REAL-WORLD AND INTERACTIVE DATA VISUALIZATION TECHNIQUES USING PYTHON
+# 📊 Experiment 18 — Real-World and Interactive Visualizations
 
-Name – Jahnvi Shukla <br/>
-Branch – ENTC A3 <br/>
-PRN – 25070123055 <br/>
-
----
-
-## 🎯 Aim
-
-To study and implement **real-world and interactive data visualization techniques using Python libraries such as Plotly, Matplotlib, and SciPy**.
+**Name:** Jahnvi Shukla <br>
+**PRN:** 25070123055<br>
+**Branch:** ENTC A3
 
 ---
 
-## 📘 Introduction
+## 🎯 Objectives
 
-In modern data analysis, simple charts are often not sufficient to represent complex datasets. **Real-world and interactive visualizations** help in understanding multi-dimensional data, relationships, and flows in a more effective way.
-
-Interactive visualizations allow users to **explore data dynamically**, making analysis more engaging and insightful. These techniques are widely used in dashboards, business analytics, and machine learning.
-
-Python libraries like **Plotly** provide interactive charts, while **Matplotlib and SciPy** support statistical and hierarchical visualizations.
-
----
-
-## 📚 Theory
-
-Advanced visualization techniques are used to represent complex relationships, hierarchies, and multi-dimensional data.
-
-**Treemap:**
-Treemaps are used to represent hierarchical data using nested rectangles. Each rectangle’s size corresponds to a value, such as budget allocation in departments. This helps in comparing proportions visually. 
-
-**Dendrogram:**
-A dendrogram is a tree-like diagram used in **hierarchical clustering**. It shows how data points are grouped together based on similarity. It is widely used in machine learning and clustering analysis. 
-
-**Venn Diagram:**
-Venn diagrams represent relationships between sets by showing common and unique elements. They are useful for logical comparisons and set analysis. 
-
-**Sankey Diagram:**
-Sankey diagrams are used to visualize **flow of data or resources** from one stage to another. The width of the flow represents the quantity, making it easy to understand transitions (e.g., student progression). 
-
-**3D Scatter Plot:**
-3D scatter plots represent relationships between three variables using three axes. They help in visualizing multi-dimensional data such as study hours, marks, and attendance. 
-
-**Radar Chart (Spider Chart):**
-Radar charts display multiple variables on axes starting from the same point. They are useful for comparing performance across different categories such as skills. 
-
-These visualization techniques use **interactive features like zooming, hovering, and dynamic updates**, making them more powerful than static charts.
+- Explore advanced, real-world-applicable visualization techniques beyond basic plots.
+- Understand how to choose the **right chart type** for a given dataset and question.
+- Gain hands-on experience with **Plotly** (interactive) and **Matplotlib** (static) ecosystems.
+- Build visual intuition for hierarchical data, flow data, cluster data, and multi-attribute data.
 
 ---
 
-## ⚙️ Procedure
+## 🛠️ Libraries & Tools Used
 
-1. Import required libraries:
-
-   * Pandas
-   * NumPy
-   * Matplotlib
-   * Plotly
-   * SciPy
-
-2. Create a dataset for company departments and budgets.
-
-3. Plot a **treemap** using Plotly to show budget distribution.
-
-4. Create sample data and perform **hierarchical clustering**.
-
-5. Plot a **dendrogram** to visualize clustering.
-
-6. Define two sets and create a **Venn diagram**.
-
-7. Create a **Sankey diagram** to show flow of students across stages.
-
-8. Create a dataset for student performance.
-
-9. Plot a **3D scatter plot** for study hours, marks, and attendance.
-
-10. Define skill data and create a **radar chart**.
-
-11. Analyze all visualizations.
+| Library | Purpose |
+|---|---|
+| `pandas` | Data creation and DataFrame management |
+| `plotly.express` | High-level interactive charts (Treemap, 3D Scatter) |
+| `plotly.graph_objects` | Low-level interactive charts (Sankey, Radar) |
+| `matplotlib.pyplot` | Static chart rendering |
+| `matplotlib_venn` | Venn diagram rendering |
+| `numpy` | Numerical data generation for clustering |
+| `scipy.cluster.hierarchy` | Hierarchical clustering and dendrogram computation |
 
 ---
 
-## 📊 Observations / Result
-
-* Treemap clearly showed **budget distribution among departments**.
-* Dendrogram represented **hierarchical grouping of data points**.
-* Venn diagram displayed **common and unique elements between sets**.
-* Sankey diagram showed **flow of students from admission to placement**.
-* 3D scatter plot visualized relationship between:
-
-  * Study Hours
-  * Marks
-  * Attendance
-* Radar chart displayed **student skill levels across multiple categories**.
-
-All visualizations helped represent **complex and multi-dimensional data effectively**.
+## 📌 Visualizations — In Detail
 
 ---
 
-## 🛠️ Tools / Libraries Used
+### 1. 🗂️ Treemap — Company Budget Distribution
 
-* Python
-* Google Colab / Jupyter Notebook
-* Plotly Library
-* Matplotlib Library
-* Pandas Library
-* NumPy Library
-* SciPy Library
+**What it does:**
+A Treemap encodes quantitative data as nested rectangles. The area of each rectangle is proportional to its value, making it immediately obvious which category dominates.
 
----
+**Dataset:**
+```
+Department  | Budget (₹)
+HR          | 20,000
+IT          | 50,000
+Sales       | 40,000
+Marketing   | 30,000
+```
 
-## 💡 Applications
+**Key insight:**
+IT commands the largest budget at ₹50,000. The treemap makes this hierarchy *visceral* — IT's rectangle dwarfs HR's in a way that numbers alone never quite do.
 
-* Business dashboards and analytics
-* Budget and financial analysis
-* Machine learning and clustering
-* Educational performance analysis
-* Data storytelling and reporting
+**Why Treemap over Pie Chart?**
+Treemaps scale beautifully to dozens of categories. Pie charts become unreadable past ~6 slices. For organizational or financial hierarchies, treemaps are the professional standard.
 
----
-
-## ✅ Advantages
-
-1. Represents complex data clearly
-2. Supports interactive exploration of data
-3. Helps visualize multi-dimensional relationships
-4. Improves data interpretation and insights
-5. Useful for real-world applications and dashboards
-6. Enhances presentation and communication
+```python
+fig = px.treemap(df, path=['Department'], values='Budget',
+                 title="Company Budget Distribution")
+```
 
 ---
 
-## 🏁 Conclusion
+### 2. 🌲 Dendrogram — Hierarchical Clustering
 
-Real-world and interactive visualization techniques provide powerful ways to analyze and interpret complex datasets. Using Python libraries like Plotly, Matplotlib, and SciPy, advanced charts such as treemaps, dendrograms, Sankey diagrams, and radar charts can be created. This experiment demonstrates how interactive visualizations improve understanding and make data analysis more effective.
+**What it does:**
+A Dendrogram is the visual output of **hierarchical (agglomerative) clustering**. It is a tree-like diagram showing how data points progressively merge into clusters. The height at which two branches merge indicates how dissimilar those clusters are — higher merge = greater distance.
+
+**Algorithm:** Ward's linkage — minimizes total within-cluster variance at each merge step, producing compact, well-separated clusters.
+
+**Reading the output:**
+Points 1 and 2 merge first (closest in feature space), then point 3 joins that cluster, and finally the remaining points aggregate. The y-axis (distance) tells you *how much* the merged clusters differ.
+
+**Real-world applications:** Gene expression analysis, document clustering, customer segmentation, anomaly detection.
+
+```python
+linked = linkage(data, method='ward')
+dendrogram(linked)
+```
+
+---
+
+### 3. 🔵 Venn Diagram — Set Intersection
+
+**What it does:**
+A Venn Diagram visualizes the logical relationships between sets — what is unique to each and what they share.
+
+```
+Set A = {1, 2, 3, 4}
+Set B = {3, 4, 5, 6}
+
+A only:      {1, 2}  → 2 elements
+Shared A∩B:  {3, 4}  → 2 elements
+B only:      {5, 6}  → 2 elements
+```
+
+Both sets share exactly 2 elements — a 50% overlap, indicating substantial similarity. The Venn diagram communicates this in a single glance.
+
+**Real-world applications:** Database JOIN visualization, biology (shared gene expression), marketing audience overlap analysis, logic education.
+
+```python
+venn2([A, B], set_labels=('Set A', 'Set B'))
+```
+
+---
+
+### 4. 🌊 Sankey Diagram — Student Academic Flow
+
+**What it does:**
+A Sankey Diagram visualizes **flow and quantity** through a system. The width of each band is proportional to the number of units flowing through that stage, making losses and transitions immediately visible.
+
+**Flow modelled:**
+```
+Admission      → 100 students
+First Year     → 80  students   (20 dropped out / transferred)
+Second Year    → 60  students   (20 further attrition)
+Placed         → 60  students   (all second-year students placed!)
+```
+
+**Key insight:** A 40% attrition from admission to second year is a stark institutional metric. This kind of flow analysis is invaluable for tracking student retention, spotting at-risk transition points, and planning interventions.
+
+**Real-world applications:** Energy flow, supply chain, budget allocation, website user journey funnels, sales pipeline analysis.
+
+```python
+fig = go.Figure(data=[go.Sankey(
+    node=dict(label=["Admission", "First Year", "Second Year", "Placed"]),
+    link=dict(source=[0,1,2], target=[1,2,3], value=[100,80,60])
+)])
+```
+
+---
+
+### 5. 🔭 3D Scatter Plot — Student Performance Analysis
+
+**What it does:**
+A 3D Scatter Plot places data points in three-dimensional space, enabling simultaneous analysis of **three variables**. Each point represents one student; their position encodes Study Hours (X), Marks (Y), and Attendance (Z).
+
+**Dataset:**
+```
+Student | Study Hours | Marks | Attendance
+A       | 2           | 50    | 60%
+B       | 4           | 65    | 75%
+C       | 6           | 75    | 80%
+D       | 8           | 90    | 90%
+E       | 5           | 70    | 70%
+```
+
+**Key insight:** A clear positive correlation exists across all three dimensions — students who study more, attend more, and score more cluster together in the top-far-right region of 3D space. The Plotly version is rotatable and hoverable, making the relationship exploration interactive.
+
+---
+
+### 6. 🕸️ Radar Chart — Student Skill Assessment
+
+**What it does:**
+Also known as a **Spider Chart**, a Radar Chart plots multiple quantitative variables on axes radiating from a central point. The polygon formed by connecting the values reveals the overall skill profile — strong skills push the shape outward, weak skills pull it inward.
+
+**Skills assessed:**
+```
+Skill            | Score (out of 5)
+Python           | 4
+Machine Learning | 3
+DBMS             | 5
+DSA              | 4
+Communication    | 3
+```
+
+**Key insight:** DBMS is the standout strength (5/5), Python and DSA are solid (4/5), while ML and Communication have room for growth (3/5). The asymmetric polygon immediately communicates a technically strong, communication-developing profile — far more expressively than a table of numbers.
+
+**Real-world applications:** Employee performance reviews, athlete fitness profiles, product feature comparison, personality assessments.
+
+```python
+fig.add_trace(go.Scatterpolar(
+    r=values, theta=skills,
+    fill='toself', name='Student Skills'
+))
+```
+
+---
+
+## 📐 Visualization Selection Guide
+
+One of the most important skills in data science is knowing *which chart to use when*. Here's the framework demonstrated across this experiment:
+
+| Scenario | Best Chart | Used In |
+|---|---|---|
+| Part-to-whole with many categories | Treemap | #1 |
+| Cluster similarity and grouping | Dendrogram | #2 |
+| Set membership and logical overlap | Venn Diagram | #3 |
+| Flow and attrition through stages | Sankey Diagram | #4 |
+| Three-variable relationship | 3D Scatter Plot | #5 |
+| Multi-attribute profile comparison | Radar Chart | #6 |
+
+---
+
+## 🧠 Conclusion
+
+This experiment demonstrates that **visualization is a form of communication**. The choice of chart type is not aesthetic — it is semantic. Each chart type encodes information in a fundamentally different way:
+
+- **Treemaps** encode quantity as *area*.
+- **Dendrograms** encode similarity as *tree height*.
+- **Venn diagrams** encode set logic as *spatial overlap*.
+- **Sankey diagrams** encode flow as *band width*.
+- **3D scatters** encode multi-dimensional correlation as *spatial position*.
+- **Radar charts** encode multi-attribute profiles as *polygon shape*.
 
